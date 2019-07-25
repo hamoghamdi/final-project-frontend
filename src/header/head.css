@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css?family=Fascinate&display=swap');
+.Header{
+   font-family: 'Fascinate', cursive;
+    background-color: #ff3333 ;
+   color: #ffebe6;
+   padding: 3%;
+   margin: 0px;
+}
+.Header nav{
+    font-family: 'Josefin Sans', sans-serif;
+}

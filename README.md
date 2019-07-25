@@ -1,10 +1,10 @@
 [![General Assembly Logo](https://camo.githubusercontent.com/1a91b05b8f4d44b5bbfb83abac2b0996d8e26c92/687474703a2f2f692e696d6775722e636f6d2f6b6538555354712e706e67)](https://generalassemb.ly/education/web-development-immersive)
 
-# Name of your APP
+# Mad Hat Chat
 
 
 
-## Web Application Description 
+## Description 
 
 
 ---
@@ -22,19 +22,50 @@ $npm start
 
 ---
 ## User Stories
+**Version 1**  
 
+- User must be able to sign up or sign in using email and password
+- User must be able to sign out and change password
+- User must be able to create a new chat room and have a nickname 
+- User must be able to send and recive messages while in a chat room
+
+**Version 2**  
+- User must be able to join in a chat room created by them or other users
+- User must be able to delete thier chat rooms 
 
 
 ## Wireframes
-
+<!-- Home page -->
+![Home Page](./images/mad-hat.png) 
+<!-- Sign Up -->
+![Sign Up](./images/Sign-Up-page.png) 
+<!-- Sign In -->
+![Sign Up](./images/Sign-in-page.png) 
+<!-- User Home Page -->
+![Sign Up](./images/User-Home-Page.png) 
+<!-- My Chat Rooms -->
+![Sign Up](./images/My-chats.png) 
+<!-- Join a Chat room -1 -->
+![Sign Up](./images/join-chat-1.png) 
+<!-- Join a chat room -2 -->
+![Sign Up](./images/join-chat-2.png) 
 
 
 ## Technologies
-
-
+<!-- **Front-end:** -->
+- React
+- CSS
+- JSX
+<!-- 
+**Back-end:**
+- WebSockets protocol
+- Express.js
+- Node.js
+- Socket.io -->
 
 
 ## Developers
+Haneen Alghamdi
 
 <!-- 
 # react-auth-template

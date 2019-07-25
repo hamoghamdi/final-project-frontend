@@ -9,6 +9,9 @@ import SignIn from './auth/components/SignIn'
 import SignOut from './auth/components/SignOut'
 import ChangePassword from './auth/components/ChangePassword'
 import AlertDismissible from './auth/components/AlertDismissible'
+import ChatRoom from './chat-room/ChatRoom'
+import IndexChatRooms from "./chat-room/IndexChatRooms";
+
 
 class App extends Component {
   constructor () {
@@ -44,6 +47,25 @@ class App extends Component {
           <Route path='/sign-in' render={() => (
             <SignIn alert={this.alert} setUser={this.setUser} />
           )} />
+          <AuthenticatedRoute user={user} exact path='/chatrooms' render={() => (
+            <IndexChatRooms user={user} />
+          )} />
+          <AuthenticatedRoute
+            user={user}
+            exact path="/chatrooms/:id"
+            render={props => (
+              <ChatRoom
+                alert={this.alert}
+                user={user}
+                roomId={props.match.params.id}
+              />
+            )}
+          />
+          <AuthenticatedRoute
+            user={user}
+            path="/create"
+            render={props => <MemeCreate alert={this.alert} user={user} />}
+          />
           <AuthenticatedRoute user={user} path='/sign-out' render={() => (
             <SignOut alert={this.alert} clearUser={this.clearUser} user={user} />
           )} />

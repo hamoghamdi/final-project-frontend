@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import './Header.scss'
+import './head.css'
 
 const authenticatedOptions = (
   <React.Fragment>
@@ -20,18 +21,19 @@ const unauthenticatedOptions = (
 const alwaysOptions = (
   <React.Fragment>
     <Link to="/">Home</Link>
+    <Link to="/chatrooms">Chat rooms</Link>
   </React.Fragment>
-)
+);
 
 const Header = ({ user }) => (
-  <header className="main-header">
-    <h1>Uber, But For Taxis</h1>
+  <header className="main-header Header">
+    <h1>Mad Hat Group Chat</h1>
     <nav>
-      { user && <span>Welcome, {user.email}</span>}
-      { user ? authenticatedOptions : unauthenticatedOptions }
-      { alwaysOptions }
+      {user && <span>Welcome, {user.email}</span>}
+      {user ? authenticatedOptions : unauthenticatedOptions}
+      {alwaysOptions}
     </nav>
   </header>
-)
+);
 
 export default Header
