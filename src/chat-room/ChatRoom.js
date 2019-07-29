@@ -3,6 +3,7 @@ import socketIOClient from "socket.io-client";
 import Message from "./Message";
 import "./style.css";
 import { show } from './chatrooms-api'
+import apiUrl from "../apiConfig";
 
 import "emoji-mart/css/emoji-mart.css";
 import { Picker } from "emoji-mart";
@@ -10,7 +11,7 @@ import { Picker } from "emoji-mart";
 class ChatRoom extends Component {
   state = {
     room: {}, ///
-    endpoint: "http://localhost:3000",
+    endpoint: apiUrl,
     newMessage: { message: "" }, // {meassage: "" , sender: "" }
     user: "",
     newUser: "",

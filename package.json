@@ -1,6 +1,6 @@
 {
   "name": "react-auth-template",
-  "homepage": "https://<USERNAME>.github.io/<REPO NAME>",
+  "homepage": "https://hamoghamdi.github.io/final-project-frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -12,6 +12,7 @@
     "dotenv-expand": "4.2.0",
     "emoji-mart": "^2.11.1",
     "fs-extra": "3.0.1",
+    "gh-pages": "^2.0.1",
     "object-assign": "4.1.1",
     "promise": "8.0.1",
     "raf": "3.4.0",
@@ -29,7 +30,8 @@
     "test": "node scripts/test.js --env=jsdom",
     "make-standard": "eslint --fix ./src;exit 0",
     "nag": "eslint ./src;exit 0",
-    "deploy": "sh scripts/deploy.sh"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "jest": {
     "collectCoverageFrom": [
