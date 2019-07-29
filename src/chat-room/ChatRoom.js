@@ -4,26 +4,52 @@ import Message from "./Message";
 import "./style.css";
 import { show } from './chatrooms-api'
 
+import "emoji-mart/css/emoji-mart.css";
+import { Picker } from "emoji-mart";
+
 class ChatRoom extends Component {
   state = {
-    room: {}, /// 
+    room: {}, ///
     endpoint: "http://localhost:3000",
     newMessage: { message: "" }, // {meassage: "" , sender: "" }
     user: "",
     newUser: "",
     onlineUsers: [],
-    messageList: [] // [ newMessage{}, newMessage{} ]
+    messageList: [], // [ newMessage{}, newMessage{} ]
+    emoji: "",
+    showEmojis: false
+  };
+
+  showEmojis = e => {
+    this.setState(
+      {
+        showEmojis: true
+      },
+      () => document.addEventListener("click", this.closeMenu)
+    );
+  };
+
+  closeMenu = e => {
+    console.log(this.emojiPicker);
+    if (this.emojiPicker !== null && !this.emojiPicker.contains(e.target)) {
+      this.setState(
+        {
+          showEmojis: false
+        },
+        () => document.removeEventListener("click", this.closeMenu)
+      );
+    }
   };
 
   sendMessage = event => {
     event.preventDefault();
     const room = this.props.roomId;
     const isEmpty = this.state.newMessage.message === "";
-    const mess = JSON.stringify(this.state.newMessage)
-    console.log("room id in mssg sending "+ room)
+    const mess = JSON.stringify(this.state.newMessage);
+    console.log("room id in mssg sending " + room);
     const socket = socketIOClient(this.state.endpoint);
     if (!isEmpty) {
-      socket.emit("send", {room: room, meassage: mess});
+      socket.emit("send", { room: room, meassage: mess });
       // socket.emit("send message", JSON.stringify(this.state.newMessage));
 
       this.setState({ newMessage: { message: "" } });
@@ -39,25 +65,31 @@ class ChatRoom extends Component {
   };
 
   handleChange = event => {
-    const mssg = event.target.value;
+    let mssg;
     const sender = this.state.user;
+    // if (this.state.emoji !== "") {
+    //   mssg = event.target.value + this.state.emoji;
+    //   this.setState({emoji: ""})
+    // } else {
+    mssg = event.target.value;
+    // }
     this.setState({ newMessage: { message: mssg, sender: sender } });
   };
 
   userJoin = () => {
     const userName = prompt("Please enter your name", "new user");
     this.setState({ user: userName });
-    const data = {userName: userName, room: this.props.roomId}
-    return data
-    // this.isOnline(data); // announce a new user joining it // must be editted to limit users joining a spicific room 
+    const data = { userName: userName, room: this.props.roomId };
+    return data;
+    // this.isOnline(data); // announce a new user joining it // must be editted to limit users joining a spicific room
   };
 
-  // /* 
+  // /*
   isOnline = data => {
     console.log(data.userName + " kkkkkkkkkkkkkkkkkkk");
     const socket = socketIOClient(this.state.endpoint);
     socket.emit("new user", data);
-  }; 
+  };
   // */
 
   newUserEntered = name => {
@@ -65,15 +97,29 @@ class ChatRoom extends Component {
     this.setState({ newUser: name });
   };
 
+  addEmojiState = e => {
+    //console.log(e.native)
+    let emoji = e.native;
+    let mssg;
+    const sender = this.state.user;
+    mssg = this.state.newMessage.message + emoji;
+  
+    this.setState({ 
+      emoji: emoji,
+      newMessage: { 
+        message: mssg, 
+        sender: sender } 
+      });
+  };
+
   componentDidMount() {
-    
     const user = this.props.user;
     const roomId = this.props.roomId;
-    console.log("wwwwwwwwww " + roomId )
+    console.log("wwwwwwwwww " + roomId);
     show(user, roomId)
       .then(response => {
         const showRoom = JSON.stringify(response.data.room);
-        console.log("in component did mount " + showRoom)
+        console.log("in component did mount " + showRoom);
         this.setState({
           room: showRoom
         });
@@ -83,11 +129,8 @@ class ChatRoom extends Component {
     const data = this.userJoin(); // prompts user for nickname
     ///
     const socket = socketIOClient(this.state.endpoint);
-    socket.emit('subscribe', data) // send roomid and username 
+    socket.emit("subscribe", data); // send roomid and username
     ///
-    
-
-
 
     /* 
     // const socket = socketIOClient(this.state.endpoint);
@@ -105,23 +148,19 @@ class ChatRoom extends Component {
 
     // recivee online users
     socket.on("online users", data => {
-      let users =[];
+      let users = [];
       data.map(element => {
-        if (element.room === this.props.roomId)
-        users.push(element.userName)
-      })
-console.log("data is", data)
+        if (element.room === this.props.roomId) users.push(element.userName);
+      });
+      console.log("data is", data);
       this.setState({ onlineUsers: users });
-      console.log(this.state.onlineUsers)
+      console.log(this.state.onlineUsers);
     });
-    
-
   }
 
   render() {
     return (
       <div>
-    
         <div className="Main">
           <div className="ChatRoom">
             {this.state.user ? (
@@ -163,6 +202,28 @@ console.log("data is", data)
                   value={this.state.newMessage.message}
                 />
               </div>
+
+              {this.state.showEmojis ? (
+                <span
+                  style={styles.emojiPicker}
+                  ref={el => (this.emojiPicker = el)}
+                >
+                  <Picker
+                    onSelect={this.addEmojiState}
+                    emojiTooltip={true}
+                    title="weChat"
+                  />
+                </span>
+              ) : (
+                <p style={styles.getEmojiButton} onClick={this.showEmojis}>
+                  {String.fromCodePoint(0x1f60a)}
+                </p>
+              )}
+
+              {/* <span>
+                <Picker onSelect={this.addEmojiState} />
+              </span> */}
+
               <div className="button-container">
                 <button type="submit">Send</button>
               </div>
@@ -182,3 +243,20 @@ console.log("data is", data)
 }
 
 export default ChatRoom;
+
+const styles = {
+
+  getEmojiButton: {
+    cssFloat: "right",
+    border: "none",
+    margin: 0,
+    cursor: "pointer"
+  },
+  emojiPicker: {
+    position: "absolute",
+    bottom: 10,
+    right: 0,
+    cssFloat: "right",
+    marginLeft: "200px"
+  }
+};
