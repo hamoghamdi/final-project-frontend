@@ -26,9 +26,16 @@ class CreateChatRoom extends Component {
     const newRoom = this.state.dataForm;
     const user = this.props.user;
     create(user, newRoom)
-      .then(() => alert("created"))
-      .then(() => this.props.history.push("/chatrooms"))
-      .catch(error => console.log(error));
+    //   .then((room) => {
+    //       alert("created")
+    //     console.log(room)}) 
+        // res.data.room._id
+      .then((res) => {
+          const id = res.data.room._id
+          this.props.history.push(
+            `/chatrooms/${id}`
+          );})
+      .catch(error => console.log("error" + error));
   };
 
   render() {

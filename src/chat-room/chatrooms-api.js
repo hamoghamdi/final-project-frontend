@@ -37,3 +37,5 @@ export const create = (user, newRoom) => {
     }
   });
 };
+
+// delete a room

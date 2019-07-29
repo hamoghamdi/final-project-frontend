@@ -11,6 +11,7 @@ import ChangePassword from './auth/components/ChangePassword'
 import AlertDismissible from './auth/components/AlertDismissible'
 import ChatRoom from './chat-room/ChatRoom'
 import IndexChatRooms from "./chat-room/IndexChatRooms";
+import CreateChatRoom from './chat-room/CreateChatRoom';
 
 
 class App extends Component {
@@ -64,7 +65,7 @@ class App extends Component {
           <AuthenticatedRoute
             user={user}
             path="/create"
-            render={props => <MemeCreate alert={this.alert} user={user} />}
+            render={props => <CreateChatRoom alert={this.alert} user={user} />}
           />
           <AuthenticatedRoute user={user} path='/sign-out' render={() => (
             <SignOut alert={this.alert} clearUser={this.clearUser} user={user} />

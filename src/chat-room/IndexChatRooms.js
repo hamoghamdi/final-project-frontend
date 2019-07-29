@@ -11,6 +11,7 @@ class IndexChatRooms extends Component {
     const user = this.props.user;
     index(user)
       .then(response => {
+          console.log(response)
         const rooms = response.data.rooms;
         this.setState({
           rooms: rooms
@@ -24,14 +25,13 @@ class IndexChatRooms extends Component {
     return (
       <div>
           <h3> rooms: </h3>
-          {this.state.rooms.map((room, index)=>{
+          {this.state.rooms.map((room, index)=>(
             <Link to={`/chatrooms/${room._id}`}>{room.title}</Link>
 
-          })}
+          ))}
           <h3>create a room</h3>
             <Link to={`/create`}>Create new room</Link>
-          
-        <h1>this is an empty page </h1>
+        
       </div>
     )
   }

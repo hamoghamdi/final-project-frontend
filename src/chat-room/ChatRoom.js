@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import socketIOClient from "socket.io-client";
 import Message from "./Message";
 import "./style.css";
+import { show } from './chatrooms-api'
 
 class ChatRoom extends Component {
   state = {
@@ -16,10 +17,15 @@ class ChatRoom extends Component {
 
   sendMessage = event => {
     event.preventDefault();
-    const socket = socketIOClient(this.state.endpoint);
+    const room = this.props.roomId;
     const isEmpty = this.state.newMessage.message === "";
+    const mess = JSON.stringify(this.state.newMessage)
+    console.log("room id in mssg sending "+ room)
+    const socket = socketIOClient(this.state.endpoint);
     if (!isEmpty) {
-      socket.emit("send message", JSON.stringify(this.state.newMessage));
+      socket.emit("send", {room: room, meassage: mess});
+      // socket.emit("send message", JSON.stringify(this.state.newMessage));
+
       this.setState({ newMessage: { message: "" } });
     }
   };
@@ -41,14 +47,18 @@ class ChatRoom extends Component {
   userJoin = () => {
     const userName = prompt("Please enter your name", "new user");
     this.setState({ user: userName });
-    this.isOnline(userName);
+    const data = {userName: userName, room: this.props.roomId}
+    return data
+    // this.isOnline(data); // announce a new user joining it // must be editted to limit users joining a spicific room 
   };
 
-  isOnline = name => {
-    console.log(name + " kkkkkkkkkkkkkkkkkkk");
+  // /* 
+  isOnline = data => {
+    console.log(data.userName + " kkkkkkkkkkkkkkkkkkk");
     const socket = socketIOClient(this.state.endpoint);
-    socket.emit("new user", name);
-  };
+    socket.emit("new user", data);
+  }; 
+  // */
 
   newUserEntered = name => {
     console.log("new user entered " + name);
@@ -56,36 +66,56 @@ class ChatRoom extends Component {
   };
 
   componentDidMount() {
-    ///
-       const user = this.props.user;
+    
+    const user = this.props.user;
     const roomId = this.props.roomId;
+    console.log("wwwwwwwwww " + roomId )
     show(user, roomId)
       .then(response => {
-        const showRoom = response.data;
-        console.log(showRoom)
+        const showRoom = JSON.stringify(response.data.room);
+        console.log("in component did mount " + showRoom)
         this.setState({
-          meme: showRoom
+          room: showRoom
         });
       })
       .catch(error => console.log(error));
     ///
-
-    this.userJoin();
-
+    const data = this.userJoin(); // prompts user for nickname
+    ///
     const socket = socketIOClient(this.state.endpoint);
-    socket.on("new user", username => {
-      this.newUserEntered(username);
-    });
+    socket.emit('subscribe', data) // send roomid and username 
+    ///
+    
 
-    socket.on("send message", mssg => {
-      const msg = JSON.parse(mssg);
-      this.addtoMessageList(msg);
+
+
+    /* 
+    // const socket = socketIOClient(this.state.endpoint);
+    socket.on("new user", username => {
+      this.newUserEntered(username); // i forgot what this do exactly and how it is different, gotta check back 
+    }); 
+    */
+
+    socket.on("message", mssg => {
+      console.log(mssg.meassage);
+      const msg = JSON.parse(mssg.meassage);
+      this.addtoMessageList(msg); // add message for view
       console.log("message recieved on client " + mssg);
     });
 
-    socket.on("online users", users => {
+    // recivee online users
+    socket.on("online users", data => {
+      let users =[];
+      data.map(element => {
+        if (element.room === this.props.roomId)
+        users.push(element.userName)
+      })
+console.log("data is", data)
       this.setState({ onlineUsers: users });
+      console.log(this.state.onlineUsers)
     });
+    
+
   }
 
   render() {
