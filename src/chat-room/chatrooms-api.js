@@ -15,6 +15,16 @@ export const index = user => {
   });
 };
 
+export const getMyRooms = user => {
+  return axios({
+    method: "GET",
+    url: apiUrl + "/myrooms",
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  });
+};
+
 export const show = (user, roomId) => {
   return Axios({
     method: "GET",
@@ -39,3 +49,12 @@ export const create = (user, newRoom) => {
 };
 
 // delete a room
+export const destroy = (user, roomId) => {
+  return Axios({
+    method: "DELETE",
+    url: apiUrl + `/chatrooms/${roomId}`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  });
+};

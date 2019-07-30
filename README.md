@@ -31,12 +31,15 @@ $npm start
 
 **Version 2**  
 - User must be able to join in a chat room created by them or other users
-- User must be able to delete thier chat rooms 
+- User must be able to view thier chatrooms 
+- User must be able to delete thier chat rooms
+- User must be able to send and recive emojis 
+
 
 
 ## Wireframes
 <!-- Home page -->
-![Home Page](./images/mad-hat.png) 
+![Home Page](./images/mad-hat.png){: width=150 height=100 style="float:right; padding:16px"}
 <!-- Sign Up -->
 ![Sign Up](./images/Sign-Up-page.png) 
 <!-- Sign In -->
@@ -54,18 +57,21 @@ $npm start
 ## Technologies
 <!-- **Front-end:** -->
 - React
+- emoji-mart
+- socket.io 
 - CSS
-- JSX
 <!-- 
 **Back-end:**
-- WebSockets protocol
 - Express.js
 - Node.js
 - Socket.io -->
 
+## Resourses 
+https://medium.com/@allegra9/add-emoji-picker-to-your-react-chat-app-30d8cbe8d9a6
 
 ## Developers
 Haneen Alghamdi
+
 
 <!-- 
 # react-auth-template

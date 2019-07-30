@@ -7,6 +7,7 @@ import apiUrl from "../apiConfig";
 
 import "emoji-mart/css/emoji-mart.css";
 import { Picker } from "emoji-mart";
+const socket = socketIOClient(apiUrl);
 
 class ChatRoom extends Component {
   state = {
@@ -14,6 +15,7 @@ class ChatRoom extends Component {
     endpoint: apiUrl,
     newMessage: { message: "" }, // {meassage: "" , sender: "" }
     user: "",
+    socket: socket,
     newUser: "",
     onlineUsers: [],
     messageList: [], // [ newMessage{}, newMessage{} ]
@@ -48,7 +50,7 @@ class ChatRoom extends Component {
     const isEmpty = this.state.newMessage.message === "";
     const mess = JSON.stringify(this.state.newMessage);
     console.log("room id in mssg sending " + room);
-    const socket = socketIOClient(this.state.endpoint);
+    const socket = this.state.socket
     if (!isEmpty) {
       socket.emit("send", { room: room, meassage: mess });
       // socket.emit("send message", JSON.stringify(this.state.newMessage));
@@ -88,15 +90,15 @@ class ChatRoom extends Component {
   // /*
   isOnline = data => {
     console.log(data.userName + " kkkkkkkkkkkkkkkkkkk");
-    const socket = socketIOClient(this.state.endpoint);
+    const socket = this.state.socket;
     socket.emit("new user", data);
   };
   // */
 
-  newUserEntered = name => {
-    console.log("new user entered " + name);
-    this.setState({ newUser: name });
-  };
+  // newUserEntered = name => {
+  //   console.log("new user entered " + name);
+  //   this.setState({ newUser: name });
+  // };
 
   addEmojiState = e => {
     //console.log(e.native)
@@ -119,8 +121,8 @@ class ChatRoom extends Component {
     console.log("wwwwwwwwww " + roomId);
     show(user, roomId)
       .then(response => {
-        const showRoom = JSON.stringify(response.data.room);
-        console.log("in component did mount " + showRoom);
+        const showRoom = response.data.room;
+        console.log("in component did mount " , showRoom);
         this.setState({
           room: showRoom
         });
@@ -129,12 +131,12 @@ class ChatRoom extends Component {
     ///
     const data = this.userJoin(); // prompts user for nickname
     ///
-    const socket = socketIOClient(this.state.endpoint);
+    const socket = this.state.socket;
     socket.emit("subscribe", data); // send roomid and username
     ///
 
     /* 
-    // const socket = socketIOClient(this.state.endpoint);
+    // const socket = this.state.socket;
     socket.on("new user", username => {
       this.newUserEntered(username); // i forgot what this do exactly and how it is different, gotta check back 
     }); 
@@ -151,7 +153,7 @@ class ChatRoom extends Component {
     socket.on("online users", data => {
       let users = [];
       data.map(element => {
-        if (element.room === this.props.roomId) users.push(element.userName);
+        users.push(element.username);
       });
       console.log("data is", data);
       this.setState({ onlineUsers: users });
@@ -159,11 +161,18 @@ class ChatRoom extends Component {
     });
   }
 
+componentWillUnmount(){
+  const socket = this.state.socket;
+  socket.emit('forceDisconnect', this.props.roomId)
+  console.log("will mount")
+}
+
   render() {
     return (
       <div>
         <div className="Main">
           <div className="ChatRoom">
+            <h3>{this.state.room.title}</h3>
             {this.state.user ? (
               <div>
                 <h3 className="thisUser">
@@ -212,7 +221,7 @@ class ChatRoom extends Component {
                   <Picker
                     onSelect={this.addEmojiState}
                     emojiTooltip={true}
-                    title="weChat"
+                    title="MadHatChat"
                   />
                 </span>
               ) : (
@@ -220,10 +229,6 @@ class ChatRoom extends Component {
                   {String.fromCodePoint(0x1f60a)}
                 </p>
               )}
-
-              {/* <span>
-                <Picker onSelect={this.addEmojiState} />
-              </span> */}
 
               <div className="button-container">
                 <button type="submit">Send</button>

@@ -12,7 +12,8 @@ import AlertDismissible from './auth/components/AlertDismissible'
 import ChatRoom from './chat-room/ChatRoom'
 import IndexChatRooms from "./chat-room/IndexChatRooms";
 import CreateChatRoom from './chat-room/CreateChatRoom';
-
+import Home from './chat-room/Home'
+import UserRooms from './chat-room/UserRooms'
 
 class App extends Component {
   constructor () {
@@ -39,21 +40,41 @@ class App extends Component {
       <React.Fragment>
         <Header user={user} />
         {alerts.map((alert, index) => (
-          <AlertDismissible key={index} variant={alert.type} message={alert.message} />
+          <AlertDismissible
+            key={index}
+            variant={alert.type}
+            message={alert.message}
+          />
         ))}
         <main className="container">
-          <Route path='/sign-up' render={() => (
-            <SignUp alert={this.alert} setUser={this.setUser} />
-          )} />
-          <Route path='/sign-in' render={() => (
-            <SignIn alert={this.alert} setUser={this.setUser} />
-          )} />
-          <AuthenticatedRoute user={user} exact path='/chatrooms' render={() => (
-            <IndexChatRooms user={user} />
-          )} />
+          <Route
+            path="/sign-up"
+            render={() => (
+              <SignUp alert={this.alert} setUser={this.setUser} />
+            )}
+          />
+          <Route
+            path="/sign-in"
+            render={() => (
+              <SignIn alert={this.alert} setUser={this.setUser} />
+            )}
+          />
           <AuthenticatedRoute
             user={user}
-            exact path="/chatrooms/:id"
+            exact
+            path="/chatrooms"
+            render={() => <IndexChatRooms user={user} />}
+          />
+          <AuthenticatedRoute
+            user={user}
+            exact
+            path="/myrooms"
+            render={() => <UserRooms user={user} />}
+          />
+          <AuthenticatedRoute
+            user={user}
+            exact
+            path="/chatrooms/:id"
             render={props => (
               <ChatRoom
                 alert={this.alert}
@@ -65,17 +86,30 @@ class App extends Component {
           <AuthenticatedRoute
             user={user}
             path="/create"
-            render={props => <CreateChatRoom alert={this.alert} user={user} />}
+            render={props => (
+              <CreateChatRoom alert={this.alert} user={user} />
+            )}
           />
-          <AuthenticatedRoute user={user} path='/sign-out' render={() => (
-            <SignOut alert={this.alert} clearUser={this.clearUser} user={user} />
-          )} />
-          <AuthenticatedRoute user={user} path='/change-password' render={() => (
-            <ChangePassword alert={this.alert} user={user} />
-          )} />
+          <AuthenticatedRoute
+            user={user}
+            path="/sign-out"
+            render={() => (
+              <SignOut
+                alert={this.alert}
+                clearUser={this.clearUser}
+                user={user}
+              />
+            )}
+          />
+          <AuthenticatedRoute
+            user={user}
+            path="/change-password"
+            render={() => <ChangePassword alert={this.alert} user={user} />}
+          />
         </main>
+        <Route exact path="/" render={() => <Home  />} />
       </React.Fragment>
-    )
+    );
   }
 }
 
