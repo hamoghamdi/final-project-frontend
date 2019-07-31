@@ -35,11 +35,12 @@ h1{
   display: flex;
   flex-direction: column;
   border-radius: 3px;
-  height: 100vh;
+  height: 100%;
   width: 80vw;
   margin: 2%;
   text-align: left;
 
+  padding-bottom: 50px;
 }
 .t{
   color: #ff3333; 
