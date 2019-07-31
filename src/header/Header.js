@@ -6,18 +6,32 @@ import './head.css'
 
 const authenticatedOptions = (
   <React.Fragment>
-    <Link to="/change-password">Change Password</Link>
-    <Link to="/sign-out">Sign Out</Link>
-    <Link to="/chatrooms">Chat rooms</Link>
-    <Link to="/myrooms">My rooms</Link>
+    <Link to="/chatrooms">
+      <button className="links">Chatrooms</button>
+    </Link>
+    <Link to="/myrooms">
+      <button className="links">My rooms</button>
+    </Link>
+    {/* <Link to="/change-password">
+      <button className="links txt">Change Password</button>
+    </Link> */}
+    <Link to="/sign-out">
+      <button className="links">Sign Out</button>
+    </Link>
   </React.Fragment>
 );
 
 const unauthenticatedOptions = (
   <React.Fragment>
-    <Link to="/">Home</Link>
-    <Link to="/sign-up">Sign Up</Link>
-    <Link to="/sign-in">Sign In</Link>
+    <Link to="/">
+      <button className="links">Home</button>
+    </Link>
+    <Link to="/sign-up">
+      <button className="links">Sign Up</button>
+    </Link>
+    <Link to="/sign-in">
+      <button className="links">Sign In</button>
+    </Link>
   </React.Fragment>
 );
 

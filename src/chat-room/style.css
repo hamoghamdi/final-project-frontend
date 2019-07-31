@@ -1,14 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Fascinate&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
 
-p, h3, h4 {
+p, h3, h4, h2, button {
 font-family: 'Josefin Sans', sans-serif;
 }
 .Main{
   /* padding-top: 1%; */
     display: flex;
     margin-right: 0%;
-    
+    justify-content: space-between;
 }
 p{
     font-size: 0.9rem;
@@ -23,6 +23,8 @@ h1{
    padding: 3%;
    margin: 0px;
 }
+
+/* Chat Room */
 .sender{
     font-weight: bold;
     font-style: italic; 
@@ -39,7 +41,12 @@ h1{
   text-align: left;
 
 }
-
+.t{
+  color: #ff3333; 
+  text-align: center;
+  background-color: #ffebe6;
+  padding: 1%;
+}
 .thisUser{
     float: right;
 }
@@ -50,9 +57,10 @@ h1{
 }
 .online-users{
   width: 20vw;
+  color: #ff3333;
   /* height: 100vh; */
 padding-left: 5%;
-    border-left-style: groove;
+    /* border-left-style: groove; */
     /* border-left-width: thick; */
         /* background-color:  #ffebe6; */
         margin-right: 0%;
@@ -65,11 +73,6 @@ padding-left: 5%;
   color: #3cb371;
 }
 
-.lastJoin{
-    font-style: italic; 
-    color: #ff4d4d;
-
-}
 
 .Message{
     border-left-style: groove;
@@ -122,4 +125,154 @@ padding-left: 5%;
 
 .MessageForm input {
   padding: 0 0 0 4px;
+}
+
+/* HOME */
+.Home{
+font-family: 'Josefin Sans', sans-serif;
+background-image: url(./homebackground.jpg);
+background-repeat: repeat;
+background-position: center;
+background-size: cover;
+height: 100vh;
+width: 100vw;
+position: absolute;
+color: #e61919;
+}
+.welcome-1{
+margin-top:15%;
+/* z-index: 1; */
+position: relative;
+background-color: #ffebe6;
+opacity: 0.9;
+padding: 4%; 
+margin: 5%;
+}
+.welcome{
+padding-top:5%;
+padding-bottom: 5%; 
+}
+.join-us{
+  border: none;
+  padding: 11px 35px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+
+background-color: #ffebe6; 
+color: #e61919;
+ 
+  border: 2px solid #ff3333;
+}
+.join-us:hover {
+  background-color: #ff3333;
+  color: white;
+}
+
+/* Sign in/Sign Up page + Create a new Room Page */
+input {
+  display: block;
+  margin-bottom: 2%;
+}
+.sign{
+
+  border: none;
+  padding: 11px 35px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+
+background-color: #ffebe6; 
+color: #e61919;
+ 
+  border: 2px solid #ff3333;
+}
+.sign:hover {
+  background-color: #ff3333;
+  color: white;
+}
+.signdiv{
+justify-content: center;
+align-self: center;
+width: 100vw;
+padding-left: 0%;
+margin-left: 0%;
+height: 100vh;
+display: flex;
+justify-content: center;
+}
+.signin{
+  height: 60vh;
+  width: 50vw;
+}
+
+/* Chatrooms index page + My Rooms page */
+
+.title{
+  color:#ff3333;
+  margin-top: 6%;
+  text-align: center;
+}
+.room{
+  margin-top: 6%;
+    margin-bottom: 10%;
+  /* border: 2px solid  #ff3333; */
+  display: flex;
+  justify-content: space-evenly;
+}
+.link{
+  /* border: none; */
+  /* color:#ffebe6; */
+  padding: 2%;
+  text-align: center;
+  width: 15vw;
+  /* text-decoration: none; */
+  /* display: inline-block; */
+  /* font-size: 0.4rem; */
+  /* margin-right: 5%; */
+  cursor: pointer;
+  background-color: #ff3333;
+  color: #ffebe6;
+  /* border: solid #e7e7e7; */
+  border-radius: 0.3rem;
+  margin-bottom: 5%;
+}
+
+.link:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.single{
+  background-color: #ffebe6;
+  padding: 4%;
+  border-radius: 3%;
+}
+.create{
+  border-radius: 1.7rem;
+  width: 25%;
+  padding: 1%;
+}
+.delete{
+  background-color: #ffebe6;
+  color:#ff3333;
+}
+
+/* Creat Room Page */
+.ch{
+   background-image: none;
+}
+.create-form{
+  background-color: #ff3333;
+  color: #ffebe6;
+  height: fit-content;
+  margin-top: 10%;
 }

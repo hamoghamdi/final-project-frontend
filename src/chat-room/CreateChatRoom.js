@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { create } from "./chatrooms-api";
 import { withRouter } from "react-router-dom";
+import "./style.css";
 
 class CreateChatRoom extends Component {
   state = {
@@ -40,23 +41,31 @@ class CreateChatRoom extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>Title</label>
-        <input
-          onChange={this.handleChange}
-          type="text"
-          name="title"
-          value={this.state.dataForm.title}
-        />
-        {/* <label>Image</label>
+      <div className="Home signdiv ch">
+        <form
+          className="auth-form welcome-1 signin create-form"
+          onSubmit={this.handleSubmit}
+        >
+          <h3>Create New Room</h3>
+          <label>Title</label>
+          <input
+            onChange={this.handleChange}
+            type="text"
+            name="title"
+            value={this.state.dataForm.title}
+          />
+          {/* <label>Image</label>
             <input
               onChange={this.handleChange}
               type="text"
               name="imageUrl"
               value={this.state.dataForm.imageUrl}
             /> */}
-        <button type="submit">Create</button>
-      </form>
+          <button type="submit" className="sign">
+            Create
+          </button>
+        </form>
+      </div>
     );
   }
 }

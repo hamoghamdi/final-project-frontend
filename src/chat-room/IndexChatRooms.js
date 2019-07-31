@@ -1,26 +1,13 @@
 import React, { Component } from 'react';
 import {index, destroy } from './chatrooms-api'
 import { Link } from "react-router-dom";
+import "./style.css";
 
 class IndexChatRooms extends Component {
   state = {
     rooms: []
   };
 
-  destroy = roomId => {
-    const user = this.props.user;
-    destroy(user, roomId)
-      .then(() => alert("Deleted"))
-      .then(() => {
-        const newRooms = this.state.rooms.filter(room => room._id !== roomId);
-        this.setState({
-          rooms: newRooms
-        });
-      })
-      .catch(error => {
-        console.log(error)
-        alert("Unautherized Access")});
-  };
 
   componentDidMount() {
     const user = this.props.user;
@@ -37,20 +24,22 @@ class IndexChatRooms extends Component {
 
   render() {
     return (
-      <div>
-        <h3> rooms: </h3>
-        {this.state.rooms.map((room, index) => ( <div key={index}>
-          <Link to={`/chatrooms/${room._id}`}>{room.title}</Link>
-          <br />
-          <Link to={`/chatrooms/${room._id}`}>
-          <button onClick={(e) => {e.preventDefault()
-            this.destroy(room._id)}}>Delete</button>
-        </Link>
+      <div className="room-index">
+        <h2 className="title"> Chat Rooms </h2>
+        <div className="room">
+          {this.state.rooms.map((room, index) => (
+            <div key={index} className="single">
+              <h3>{room.title}</h3>
+              <Link to={`/chatrooms/${room._id}`}>
+                <button className="link">Join +</button>
+              </Link>
+              
+            </div>
+          ))}
         </div>
-        ))}
-        <h3>create a room</h3>
-        <Link to={`/create`}>Create new room</Link>
-        
+        <Link to={`/create`}>
+          <button className="link create">Create new room +</button>
+        </Link>
       </div>
     );
   }

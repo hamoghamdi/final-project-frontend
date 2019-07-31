@@ -47,18 +47,18 @@ class App extends Component {
           />
         ))}
         <main className="container">
-          <Route
+          {/* <Route
             path="/sign-up"
             render={() => (
               <SignUp alert={this.alert} setUser={this.setUser} />
             )}
-          />
-          <Route
+          /> */}
+          {/* <Route
             path="/sign-in"
             render={() => (
               <SignIn alert={this.alert} setUser={this.setUser} />
             )}
-          />
+          /> */}
           <AuthenticatedRoute
             user={user}
             exact
@@ -71,7 +71,7 @@ class App extends Component {
             path="/myrooms"
             render={() => <UserRooms user={user} />}
           />
-          <AuthenticatedRoute
+          {/* <AuthenticatedRoute
             user={user}
             exact
             path="/chatrooms/:id"
@@ -82,14 +82,14 @@ class App extends Component {
                 roomId={props.match.params.id}
               />
             )}
-          />
-          <AuthenticatedRoute
+          /> */}
+          {/* <AuthenticatedRoute
             user={user}
             path="/create"
             render={props => (
               <CreateChatRoom alert={this.alert} user={user} />
             )}
-          />
+          /> */}
           <AuthenticatedRoute
             user={user}
             path="/sign-out"
@@ -107,7 +107,38 @@ class App extends Component {
             render={() => <ChangePassword alert={this.alert} user={user} />}
           />
         </main>
-        <Route exact path="/" render={() => <Home  />} />
+        <AuthenticatedRoute
+          user={user}
+          exact
+          path="/chatrooms/:id"
+          render={props => (
+            <ChatRoom
+              alert={this.alert}
+              user={user}
+              roomId={props.match.params.id}
+            />
+          )}
+        />
+        <AuthenticatedRoute
+          user={user}
+          path="/create"
+          render={props => (
+            <CreateChatRoom alert={this.alert} user={user} />
+          )}
+        />
+        <Route
+          path="/sign-in"
+          render={() => (
+            <SignIn alert={this.alert} setUser={this.setUser} />
+          )}
+        />
+        <Route
+          path="/sign-up"
+          render={() => (
+            <SignUp alert={this.alert} setUser={this.setUser} />
+          )}
+        />
+        <Route exact path="/" render={() => <Home />} />
       </React.Fragment>
     );
   }

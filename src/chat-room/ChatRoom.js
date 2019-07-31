@@ -16,7 +16,7 @@ class ChatRoom extends Component {
     newMessage: { message: "" }, // {meassage: "" , sender: "" }
     user: "",
     socket: socket,
-    newUser: "",
+    // newUser: "",
     onlineUsers: [],
     messageList: [], // [ newMessage{}, newMessage{} ]
     emoji: "",
@@ -50,7 +50,7 @@ class ChatRoom extends Component {
     const isEmpty = this.state.newMessage.message === "";
     const mess = JSON.stringify(this.state.newMessage);
     console.log("room id in mssg sending " + room);
-    const socket = this.state.socket
+    const socket = this.state.socket;
     if (!isEmpty) {
       socket.emit("send", { room: room, meassage: mess });
       // socket.emit("send message", JSON.stringify(this.state.newMessage));
@@ -87,18 +87,19 @@ class ChatRoom extends Component {
     // this.isOnline(data); // announce a new user joining it // must be editted to limit users joining a spicific room
   };
 
-  // /*
+  /*
   isOnline = data => {
     console.log(data.userName + " kkkkkkkkkkkkkkkkkkk");
     const socket = this.state.socket;
     socket.emit("new user", data);
   };
-  // */
+   
 
-  // newUserEntered = name => {
-  //   console.log("new user entered " + name);
-  //   this.setState({ newUser: name });
-  // };
+   newUserEntered = name => {
+     console.log("new user entered " + name);
+     this.setState({ newUser: name });
+   };
+  */
 
   addEmojiState = e => {
     //console.log(e.native)
@@ -106,13 +107,14 @@ class ChatRoom extends Component {
     let mssg;
     const sender = this.state.user;
     mssg = this.state.newMessage.message + emoji;
-  
-    this.setState({ 
+
+    this.setState({
       emoji: emoji,
-      newMessage: { 
-        message: mssg, 
-        sender: sender } 
-      });
+      newMessage: {
+        message: mssg,
+        sender: sender
+      }
+    });
   };
 
   componentDidMount() {
@@ -122,7 +124,7 @@ class ChatRoom extends Component {
     show(user, roomId)
       .then(response => {
         const showRoom = response.data.room;
-        console.log("in component did mount " , showRoom);
+        console.log("in component did mount ", showRoom);
         this.setState({
           room: showRoom
         });
@@ -161,34 +163,26 @@ class ChatRoom extends Component {
     });
   }
 
-componentWillUnmount(){
-  const socket = this.state.socket;
-  socket.emit('forceDisconnect', this.props.roomId)
-  console.log("will mount")
-}
+  componentWillUnmount() {
+    const socket = this.state.socket;
+    socket.emit("forceDisconnect", this.props.roomId, this.state.user);
+    console.log("will mount");
+  }
 
   render() {
     return (
       <div>
         <div className="Main">
           <div className="ChatRoom">
-            <h3>{this.state.room.title}</h3>
+            <h2 className="t">{this.state.room.title}</h2>
             {this.state.user ? (
-              <div>
-                <h3 className="thisUser">
-                  {" "}
-                  You joined in as{" "}
-                  <span className="user">{this.state.user}</span>{" "}
-                </h3>
+              <div><h3 className="thisUser">
+                {" "}
+                You joined in as <span className="user">
+                  {this.state.user}
+                </span>{" "}
+              </h3>
               </div>
-            ) : (
-              ""
-            )}
-
-            {this.state.newUser ? (
-              <p className="lastJoin">
-                <b>{this.state.newUser}</b> joined the chat
-              </p>
             ) : (
               ""
             )}
